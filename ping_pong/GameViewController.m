@@ -23,6 +23,18 @@
     
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self becomeFirstResponder];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    [self resignFirstResponder];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -37,11 +49,11 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     for (UITouch *touch in touches) {
         CGPoint point = [touch locationInView:self.view];
-        if (bottomTouch == nil && point.y < _halfScreenHeight) {
+        if (bottomTouch == nil && point.y > self.halfScreenHeight) {
             bottomTouch = touch;
             _paddleBottom.center = CGPointMake(point.x, point.y);
         }
-        else if (topTouch == nil && point.y < _halfScreenHeight) {
+        else if (topTouch == nil && point.y < self.halfScreenHeight) {
             topTouch = touch;
             _paddleTop.center = CGPointMake(point.x, point.y);
         }
@@ -55,7 +67,7 @@
             _paddleTop.center = CGPointMake(point.x, point.y);
         }
         else if (touch == bottomTouch) {
-            _paddleTop.center = CGPointMake(point.x, point.y);
+            _paddleBottom.center = CGPointMake(point.x, point.y);
         }
     }
 }
